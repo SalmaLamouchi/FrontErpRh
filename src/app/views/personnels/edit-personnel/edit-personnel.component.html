@@ -1,1 +1,26 @@
-<p>edit-personnel works!</p>
+<h2>Modifier un Personnel</h2>
+
+<form (ngSubmit)="onSubmit()" #personnelForm="ngForm">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nom Complet</mat-label>
+    <input matInput [(ngModel)]="personnel.fullName" name="fullName" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Poste</mat-label>
+    <input matInput [(ngModel)]="personnel.poste" name="poste" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Email</mat-label>
+    <input matInput [(ngModel)]="personnel.email" name="email" required email />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Téléphone</mat-label>
+    <input matInput [(ngModel)]="personnel.phone" name="phone" required />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Enregistrer</button>
+  <button mat-button color="warn" routerLink="/personnel">Annuler</button>
+</form>

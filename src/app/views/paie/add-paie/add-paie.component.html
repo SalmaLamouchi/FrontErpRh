@@ -1,1 +1,41 @@
-<p>add-paie works!</p>
+<mat-card>
+  <mat-card-title>Ajouter une Fiche de Paie</mat-card-title>
+  <mat-card-content>
+    <form (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Matricule</mat-label>
+        <input matInput [(ngModel)]="paie.matricule" name="matricule" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nom</mat-label>
+        <input matInput [(ngModel)]="paie.nom" name="nom" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mois</mat-label>
+        <input matInput [(ngModel)]="paie.mois" name="mois" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Salaire Brut</mat-label>
+        <input matInput type="number" [(ngModel)]="paie.salaireBrut" name="brut" required (input)="calculerSalaireNet()" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Retenues</mat-label>
+        <input matInput type="number" [(ngModel)]="paie.retenues" name="retenues" required (input)="calculerSalaireNet()" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Salaire Net</mat-label>
+        <input matInput type="number" [value]="paie.salaireNet" name="net" disabled />
+      </mat-form-field>
+
+      <div style="margin-top: 20px;">
+        <button mat-raised-button color="primary" type="submit">Ajouter</button>
+        <button mat-button color="warn" routerLink="/paie">Annuler</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

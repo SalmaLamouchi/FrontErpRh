@@ -1,1 +1,35 @@
-<p>edit-conge works!</p>
+<div class="edit-conge-container">
+  <mat-card>
+    <mat-card-title>Modifier le Congé</mat-card-title>
+    <form (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nom</mat-label>
+        <input matInput [(ngModel)]="conge.nom" name="nom" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Date de début</mat-label>
+        <input matInput type="date" [(ngModel)]="conge.dateDebut" name="dateDebut" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Date de fin</mat-label>
+        <input matInput type="date" [(ngModel)]="conge.dateFin" name="dateFin" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Type de congé</mat-label>
+        <mat-select [(ngModel)]="conge.type" name="type" required>
+          <mat-option value="Annuel">Annuel</mat-option>
+          <mat-option value="Maladie">Maladie</mat-option>
+          <mat-option value="Sans solde">Sans solde</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="btn-group">
+        <button mat-raised-button color="primary" type="submit">Enregistrer</button>
+        <button mat-button color="warn" routerLink="/conge">Annuler</button>
+      </div>
+    </form>
+  </mat-card>
+</div>

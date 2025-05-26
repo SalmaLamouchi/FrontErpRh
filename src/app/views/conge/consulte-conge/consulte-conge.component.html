@@ -1,1 +1,25 @@
-<p>consulte-conge works!</p>
+<div class="consulte-container animate-fade-in">
+  <h2>Liste des Congés</h2>
+
+  <div *ngIf="conges.length === 0" class="no-conge">
+    Aucun congé trouvé.
+  </div>
+
+  <div class="conge-grid">
+    <mat-card class="conge-card" *ngFor="let conge of conges">
+      <mat-card-title>{{ conge.nom }}</mat-card-title>
+      <mat-card-subtitle>
+        📅 Du {{ conge.dateDebut | date:'dd/MM/yyyy' }} au {{ conge.dateFin | date:'dd/MM/yyyy' }}
+      </mat-card-subtitle>
+      <mat-chip color="primary" selected>
+        {{ conge.type }}
+      </mat-chip>
+      <mat-card-actions>
+        <button mat-icon-button color="accent" routerLink="/conge/editConge">
+  <mat-icon>edit</mat-icon>
+</button>
+
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+.full-width-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.filter-bar {
+  margin: 16px;
+  display: flex;
+  justify-content: flex-end;
+}

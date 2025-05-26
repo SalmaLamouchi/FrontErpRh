@@ -1,0 +1,62 @@
+.conge-container {
+  display: flex;
+  justify-content: center;
+  margin: 32px;
+}
+
+.conge-card {
+  width: 100%;
+  max-width: 900px;
+  padding: 16px;
+}
+
+.conge-layout {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.conge-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.conge-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.conge-form {
+  flex: 1;
+  padding: 16px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+/* Simple slide-in animation */
+.animate-slide-in {
+  animation: slideIn 0.6s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

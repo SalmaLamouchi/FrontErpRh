@@ -1,1 +1,27 @@
-<p>add-personnel works!</p>
+<h2>Ajouter un personnel</h2>
+
+<form (ngSubmit)="onSubmit()" #personnelForm="ngForm">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Nom complet</mat-label>
+    <input matInput required name="fullName" [(ngModel)]="personnel.fullName" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Poste</mat-label>
+    <input matInput required name="poste" [(ngModel)]="personnel.poste" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Email</mat-label>
+    <input matInput required email name="email" [(ngModel)]="personnel.email" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Téléphone</mat-label>
+    <input matInput required name="phone" [(ngModel)]="personnel.phone" />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="personnelForm.invalid">
+    Ajouter
+  </button>
+</form>

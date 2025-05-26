@@ -1,0 +1,21 @@
+.table-container {
+  margin: 20px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+mat-form-field {
+  width: 250px;
+  margin-right: 16px;
+}
