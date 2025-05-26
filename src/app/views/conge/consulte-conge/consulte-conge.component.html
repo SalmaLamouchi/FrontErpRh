@@ -7,18 +7,19 @@
 
   <div class="conge-grid">
     <mat-card class="conge-card" *ngFor="let conge of conges">
-      <mat-card-title>{{ conge.nom }}</mat-card-title>
       <mat-card-subtitle>
         📅 Du {{ conge.dateDebut | date:'dd/MM/yyyy' }} au {{ conge.dateFin | date:'dd/MM/yyyy' }}
       </mat-card-subtitle>
       <mat-chip color="primary" selected>
-        {{ conge.type }}
+        {{ conge.typeConge }}
+      </mat-chip>
+      <mat-chip>
+        Statut : {{ conge.statut }}
       </mat-chip>
       <mat-card-actions>
-        <button mat-icon-button color="accent" routerLink="/conge/editConge">
-  <mat-icon>edit</mat-icon>
-</button>
-
+        <button mat-icon-button color="accent" [routerLink]="['/conge/editConge', conge.id]">
+          <mat-icon>edit</mat-icon>
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>

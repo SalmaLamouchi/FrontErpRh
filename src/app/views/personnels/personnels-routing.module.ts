@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '',
     component: ConsulterPersonnelComponent,
   },{
-    path:'editPersonnel',
+    path:'editPersonnel/:id',
     component:EditPersonnelComponent
   },
   {path:'addPersonnel',component:AddPersonnelComponent}

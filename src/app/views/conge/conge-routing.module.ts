@@ -7,7 +7,7 @@ import { ConsulteCongeComponent } from './consulte-conge/consulte-conge.componen
 const routes: Routes = [
   { path: '', component: ConsulteCongeComponent },
   { path: 'addConge', component: AddCongeComponent },
-  { path: 'editConge', component: EditCongeComponent }
+  { path: 'editConge/:id', component: EditCongeComponent }
 ];
 
 @NgModule({

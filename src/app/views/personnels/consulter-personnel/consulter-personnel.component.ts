@@ -1,68 +1,89 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-
-export interface Personnel {
-  fullName: string;
-  poste: string;
-  email: string;
-  phone: string;
-}
+import { PersonnelService } from 'src/app/services/personnel.service';
+import { Personnel } from 'src/app/models/personnel';
 
 @Component({
   selector: 'app-consulter-personnel',
   templateUrl: './consulter-personnel.component.html',
   styleUrls: ['./consulter-personnel.component.css']
 })
-export class ConsulterPersonnelComponent implements OnInit {
+export class ConsulterPersonnelComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['fullName', 'poste', 'email', 'phone', 'actions'];
-  dataSource: MatTableDataSource<Personnel>;
-
-  personnels: Personnel[] = [
-    { fullName: 'Rayhane Z', poste: 'Développeur', email: 'rayhane@gmail.com', phone: '55123456' },
-    { fullName: 'Salma L', poste: 'Designer', email: 'salma@gmail.com', phone: '28987654' },
-    { fullName: 'Ahmed M', poste: 'RH', email: 'ahmed@gmail.com', phone: '22321654' }
-  ];
+  displayedColumns: string[] = ['nomComplet', 'poste', 'email', 'salaire', 'dateEmbauche', 'actions'];
+  dataSource = new MatTableDataSource<Personnel>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private router: Router) { //router
-    this.dataSource = new MatTableDataSource(this.personnels);
-  }
+  constructor(
+    private personnelService: PersonnelService,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadPersonnels();
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    // Filtre personnalisé sur nom+prenom+poste
+    this.dataSource.filterPredicate = (data: Personnel, filter: string) => {
+      const dataStr = (data.nom + ' ' + data.prenom + ' ' + data.poste).toLowerCase();
+      return dataStr.includes(filter);
+    };
+  }
+
+  loadPersonnels() {
+    this.personnelService.getPersonnels().subscribe({
+      next: (personnels) => {
+        this.dataSource.data = personnels;
+      },
+      error: (err) => {
+        console.error('Erreur chargement personnels:', err);
+      }
+    });
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue;
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   editPersonnel(personnel: Personnel) {
-    //redirection vers le formulaire d’edit
-    this.router.navigate(['/personnel/editPersonnel'], {
+    this.router.navigate(['personnel/editPersonnel/:id'], {
       queryParams: {
-        fullName: personnel.fullName,
+        id: personnel.id,
+        nom: personnel.nom,
+        prenom: personnel.prenom,
         poste: personnel.poste,
         email: personnel.email,
-        phone: personnel.phone
-      }
+        salaire: personnel.salaire,
+dateEmbauche: new Date(personnel.dateEmbauche).toISOString()      }
     });
   }
 
   deletePersonnel(personnel: Personnel) {
-    const confirmDelete = confirm(`Supprimer ${personnel.fullName} ?`);
-    if (confirmDelete) {
-      this.personnels = this.personnels.filter(p => p !== personnel);
-      this.dataSource.data = this.personnels;
-    }
+  console.log('ID à supprimer:', personnel.id); // 👈 LOG ICI
+  if (confirm(`Supprimer ${personnel.nom} ${personnel.prenom} ?`)) {
+    this.personnelService.deletePersonnel(personnel.id).subscribe({
+      next: () => {
+        this.loadPersonnels();
+      },
+      error: (err) => {
+        console.error('Erreur suppression:', err.error?.Message || err.message);
+      }
+    });
   }
+}
+
 }

@@ -8,6 +8,8 @@ import { HomeComponent } from './home/home.component';
 import { MaterialModule } from './material/material.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
+import { CongeModule } from './views/conge/conge.module';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +21,8 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    FormsModule
+    FormsModule  ,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -15,27 +15,37 @@
 
   <table mat-table [dataSource]="dataSource" matSort class="mat-table-responsive">
 
-    <ng-container matColumnDef="fullName">
+    <!-- Nom Complet -->
+    <ng-container matColumnDef="nomComplet">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom Complet</th>
-      <td mat-cell *matCellDef="let element">{{element.fullName}}</td>
+      <td mat-cell *matCellDef="let element">{{element.nom}} {{element.prenom}}</td>
     </ng-container>
 
+    <!-- Poste -->
     <ng-container matColumnDef="poste">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Poste</th>
       <td mat-cell *matCellDef="let element">{{element.poste}}</td>
     </ng-container>
 
+    <!-- Email -->
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef>Email</th>
       <td mat-cell *matCellDef="let element">{{element.email}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="phone">
-      <th mat-header-cell *matHeaderCellDef>Téléphone</th>
-      <td mat-cell *matCellDef="let element">{{element.phone}}</td>
+    <!-- Salaire -->
+    <ng-container matColumnDef="salaire">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Salaire</th>
+      <td mat-cell *matCellDef="let element">{{element.salaire | currency:'TND':'symbol'}}</td>
     </ng-container>
 
-    <!--actions-->
+    <!-- Date Embauche -->
+    <ng-container matColumnDef="dateEmbauche">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date Embauche</th>
+      <td mat-cell *matCellDef="let element">{{element.dateEmbauche | date:'dd/MM/yyyy'}}</td>
+    </ng-container>
+
+    <!-- Actions -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
@@ -48,11 +58,11 @@
       </td>
     </ng-container>
 
-    <!--l'entetes -->
+    <!-- Header & Row -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
   </table>
 
-  <!-- pagination -->
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
