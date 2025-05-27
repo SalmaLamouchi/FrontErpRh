@@ -3,38 +3,40 @@
   <mat-card-content>
     <form (ngSubmit)="onSubmit()">
 
+      <!-- Id, en lecture seule (car généralement non modifiable) -->
       <mat-form-field class="full-width">
-        <mat-label>Matricule</mat-label>
-        <input matInput [(ngModel)]="paie.matricule" name="matricule" required>
+        <mat-label>ID</mat-label>
+        <input matInput [(ngModel)]="paie.id" name="id" required readonly>
       </mat-form-field>
 
+      <!-- Personnel ID (Matricule) -->
       <mat-form-field class="full-width">
-        <mat-label>Nom</mat-label>
-        <input matInput [(ngModel)]="paie.nom" name="nom" required>
+        <mat-label>Personnel ID</mat-label>
+        <input matInput [(ngModel)]="paie.personnelId" name="personnelId" required>
       </mat-form-field>
 
+      <!-- Mois payé, input type date (format Date) -->
       <mat-form-field class="full-width">
-        <mat-label>Mois</mat-label>
-        <input matInput [(ngModel)]="paie.mois" name="mois" required>
+        <mat-label>Mois payé</mat-label>
+        <input matInput type="month" [(ngModel)]="moisPayeString" name="moisPaye" required (change)="onMoisChange()">
       </mat-form-field>
 
+      <!-- Montant (salaire net) -->
       <mat-form-field class="full-width">
-        <mat-label>Salaire Brut</mat-label>
-        <input matInput type="number" [(ngModel)]="paie.salaireBrut" name="brut" (input)="calculerSalaireNet()" required>
+        <mat-label>Montant</mat-label>
+        <input matInput type="number" [(ngModel)]="paie.montant" name="montant" required min="0">
       </mat-form-field>
 
+      <!-- Statut -->
       <mat-form-field class="full-width">
-        <mat-label>Retenues</mat-label>
-        <input matInput type="number" [(ngModel)]="paie.retenues" name="retenues" (input)="calculerSalaireNet()" required>
+        <mat-label>Statut</mat-label>
+        <input matInput [(ngModel)]="paie.statut" name="statut" required>
       </mat-form-field>
 
-      <mat-form-field class="full-width">
-        <mat-label>Salaire Net</mat-label>
-        <input matInput type="number" [value]="paie.salaireNet" readonly>
-      </mat-form-field>
-
-      <button mat-raised-button color="primary" type="submit">Enregistrer</button>
-      <button mat-button color="warn" type="button" (click)="router.navigate(['/paie'])">Annuler</button>
+      <div class="button-row">
+        <button mat-raised-button color="primary" type="submit">Enregistrer</button>
+        <button mat-button color="warn" type="button" (click)="onCancel()">Annuler</button>
+      </div>
 
     </form>
   </mat-card-content>

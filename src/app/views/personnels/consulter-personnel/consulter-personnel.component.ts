@@ -39,7 +39,7 @@ export class ConsulterPersonnelComponent implements OnInit, AfterViewInit {
     };
   }
 
-  loadPersonnels() {
+  loadPersonnels(): void {
     this.personnelService.getPersonnels().subscribe({
       next: (personnels) => {
         this.dataSource.data = personnels;
@@ -50,7 +50,7 @@ export class ConsulterPersonnelComponent implements OnInit, AfterViewInit {
     });
   }
 
-  applyFilter(event: Event) {
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue;
 
@@ -59,8 +59,8 @@ export class ConsulterPersonnelComponent implements OnInit, AfterViewInit {
     }
   }
 
-  editPersonnel(personnel: Personnel) {
-    this.router.navigate(['personnel/editPersonnel/:id'], {
+  editPersonnel(personnel: Personnel): void {
+    this.router.navigate(['personnel/editPersonnel', personnel.id], {
       queryParams: {
         id: personnel.id,
         nom: personnel.nom,
@@ -68,22 +68,39 @@ export class ConsulterPersonnelComponent implements OnInit, AfterViewInit {
         poste: personnel.poste,
         email: personnel.email,
         salaire: personnel.salaire,
-dateEmbauche: new Date(personnel.dateEmbauche).toISOString()      }
-    });
-  }
-
-  deletePersonnel(personnel: Personnel) {
-  console.log('ID à supprimer:', personnel.id); // 👈 LOG ICI
-  if (confirm(`Supprimer ${personnel.nom} ${personnel.prenom} ?`)) {
-    this.personnelService.deletePersonnel(personnel.id).subscribe({
-      next: () => {
-        this.loadPersonnels();
-      },
-      error: (err) => {
-        console.error('Erreur suppression:', err.error?.Message || err.message);
+        dateEmbauche: new Date(personnel.dateEmbauche).toISOString()
       }
     });
   }
-}
+
+  addPersonnel(): void {
+    this.router.navigate(['personnel/addPersonnel']);
+  }
+
+  deletePersonnel(personnel: Personnel): void {
+    if (confirm(`Voulez-vous vraiment supprimer ${personnel.nom} ${personnel.prenom} ?`)) {
+      this.personnelService.deletePersonnel(personnel.id).subscribe({
+        next: () => {
+          this.loadPersonnels();
+        },
+        error: (err) => {
+          console.error('Erreur suppression:', err.error?.Message || err.message);
+          alert('Erreur lors de la suppression.');
+        }
+      });
+    }
+  }
+
+  PayByPersonalId(personnel: Personnel): void {
+    this.router.navigate(['/personnel/payment', personnel.id], {
+      state: { personnel }
+    });
+  }
+
+  CongeByPersonnelId(personnel: Personnel): void {
+    this.router.navigate(['/personnel/conge', personnel.id], {
+      state: { personnel }
+    });
+  }
 
 }

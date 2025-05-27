@@ -1,27 +1,104 @@
-<h2>Ajouter un personnel</h2>
+<div class="form-container">
+  <h2>Ajouter un personnel</h2>
 
-<form (ngSubmit)="onSubmit()" #personnelForm="ngForm">
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Nom complet</mat-label>
-    <input matInput required name="fullName" [(ngModel)]="personnel.fullName" />
-  </mat-form-field>
+  <form (ngSubmit)="onSubmit()" #personnelForm="ngForm" class="personnel-form">
 
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Poste</mat-label>
-    <input matInput required name="poste" [(ngModel)]="personnel.poste" />
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nom</mat-label>
+      <input
+        matInput
+        required
+        name="nom"
+        [(ngModel)]="personnel.nom"
+        #nom="ngModel"
+        placeholder="Entrez le nom"
+      />
+      <mat-error *ngIf="nom.invalid && nom.touched">Le nom est requis.</mat-error>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Email</mat-label>
-    <input matInput required email name="email" [(ngModel)]="personnel.email" />
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Prénom</mat-label>
+      <input
+        matInput
+        required
+        name="prenom"
+        [(ngModel)]="personnel.prenom"
+        #prenom="ngModel"
+        placeholder="Entrez le prénom"
+      />
+      <mat-error *ngIf="prenom.invalid && prenom.touched">Le prénom est requis.</mat-error>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Téléphone</mat-label>
-    <input matInput required name="phone" [(ngModel)]="personnel.phone" />
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Poste</mat-label>
+      <input
+        matInput
+        required
+        name="poste"
+        [(ngModel)]="personnel.poste"
+        #poste="ngModel"
+        placeholder="Entrez le poste"
+      />
+      <mat-error *ngIf="poste.invalid && poste.touched">Le poste est requis.</mat-error>
+    </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="personnelForm.invalid">
-    Ajouter
-  </button>
-</form>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        required
+        email
+        name="email"
+        [(ngModel)]="personnel.email"
+        #email="ngModel"
+        placeholder="exemple@domaine.com"
+      />
+      <mat-error *ngIf="email.invalid && email.touched">
+        Veuillez saisir un email valide.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Salaire (€)</mat-label>
+      <input
+        matInput
+        required
+        type="number"
+        min="0"
+        name="salaire"
+        [(ngModel)]="personnel.salaire"
+        #salaire="ngModel"
+        placeholder="Entrez le salaire"
+      />
+      <mat-error *ngIf="salaire.invalid && salaire.touched">
+        Le salaire doit être un nombre positif.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Date d'embauche</mat-label>
+      <input
+        matInput
+        required
+        type="date"
+        name="dateEmbauche"
+        [(ngModel)]="personnel.dateEmbauche"
+        #dateEmbauche="ngModel"
+      />
+      <mat-error *ngIf="dateEmbauche.invalid && dateEmbauche.touched">
+        La date d'embauche est requise.
+      </mat-error>
+    </mat-form-field>
+
+    <div class="button-container">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="personnelForm.invalid"
+      >
+        Ajouter
+      </button>
+    </div>
+  </form>
+</div>

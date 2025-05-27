@@ -9,12 +9,14 @@ import { ConsulteCongeComponent } from './consulte-conge/consulte-conge.componen
 import { MaterialModule } from '../../material/material.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CongeComponent } from './conge/conge.component';
 
 @NgModule({
   declarations: [
     EditCongeComponent,
     AddCongeComponent,
-    ConsulteCongeComponent
+    ConsulteCongeComponent,
+    CongeComponent
   ],
   imports: [
     CommonModule,

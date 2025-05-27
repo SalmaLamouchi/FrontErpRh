@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AddPersonnelComponent } from './add-personnel/add-personnel.component';
 import { EditPersonnelComponent } from './edit-personnel/edit-personnel.component';
 import { ConsulterPersonnelComponent } from './consulter-personnel/consulter-personnel.component';
+import { PayementComponent } from '../paie/payement/payement.component';
+import { CongeComponent } from '../conge/conge/conge.component';
 
 const routes: Routes = [
   {
@@ -12,7 +14,9 @@ const routes: Routes = [
     path:'editPersonnel/:id',
     component:EditPersonnelComponent
   },
-  {path:'addPersonnel',component:AddPersonnelComponent}
+  {path:'addPersonnel',component:AddPersonnelComponent},
+  {path:'payment/:id',component:PayementComponent},
+  {path:'conge/:id',component: CongeComponent}
 ];
 
 @NgModule({

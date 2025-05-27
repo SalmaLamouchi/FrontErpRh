@@ -5,7 +5,7 @@ import { EditPaieComponent } from './edit-paie/edit-paie.component';
 import { ConsulterPaieComponent } from './consulter-paie/consulter-paie.component';
 import { PaieRoutingModule } from './paie-routing.module';
 import { FormsModule } from '@angular/forms';
-
+import {MatTabsModule} from '@angular/material/tabs';
 //angular material
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
@@ -16,7 +16,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 @NgModule({
   declarations: [
     AddPaieComponent,
@@ -24,10 +25,10 @@ import { MatButtonModule } from '@angular/material/button';
     ConsulterPaieComponent
   ],
   imports: [
-    CommonModule,
-    PaieRoutingModule,
+    CommonModule,MatSelectModule,
+    PaieRoutingModule,MatOptionModule,
     FormsModule,
-
+    MatTabsModule,
     //angular material modules
     MatTableModule,
     MatCardModule,

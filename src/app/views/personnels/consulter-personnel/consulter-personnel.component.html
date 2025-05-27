@@ -1,68 +1,67 @@
-<div class="table-container mat-elevation-z8">
-  <mat-toolbar color="primary">
-    <span>Liste du Personnel</span>
-    <span class="spacer"></span>
+<div class="mat-elevation-z8">
+  <mat-form-field appearance="fill" style="width: 300px; margin-right: 1rem;">
+    <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
+  </mat-form-field>
 
-    <button mat-raised-button color="accent" routerLink="/personnel/addPersonnel">
-      Ajouter un Personnel
-    </button>
+  <button mat-raised-button color="primary" (click)="addPersonnel()" style="vertical-align: bottom;">
+    <mat-icon>add</mat-icon> Ajouter Personnel
+  </button>
 
-    <mat-form-field appearance="outline" style="margin-left: 20px;">
-      <mat-label>Filtrer</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Chercher un nom, poste...">
-    </mat-form-field>
-  </mat-toolbar>
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%; margin-top: 1rem;">
 
-  <table mat-table [dataSource]="dataSource" matSort class="mat-table-responsive">
-
-    <!-- Nom Complet -->
+    <!-- Nom Complet Column -->
     <ng-container matColumnDef="nomComplet">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom Complet</th>
-      <td mat-cell *matCellDef="let element">{{element.nom}} {{element.prenom}}</td>
+      <td mat-cell *matCellDef="let row">{{ row.nom }} {{ row.prenom }}</td>
     </ng-container>
 
-    <!-- Poste -->
+    <!-- Poste Column -->
     <ng-container matColumnDef="poste">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Poste</th>
-      <td mat-cell *matCellDef="let element">{{element.poste}}</td>
+      <td mat-cell *matCellDef="let row">{{ row.poste }}</td>
     </ng-container>
 
-    <!-- Email -->
+    <!-- Email Column -->
     <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let element">{{element.email}}</td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let row">{{ row.email }}</td>
     </ng-container>
 
-    <!-- Salaire -->
+    <!-- Salaire Column -->
     <ng-container matColumnDef="salaire">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Salaire</th>
-      <td mat-cell *matCellDef="let element">{{element.salaire | currency:'TND':'symbol'}}</td>
+      <td mat-cell *matCellDef="let row">{{ row.salaire | currency:'EUR' }}</td>
     </ng-container>
 
-    <!-- Date Embauche -->
+    <!-- Date Embauche Column -->
     <ng-container matColumnDef="dateEmbauche">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Date Embauche</th>
-      <td mat-cell *matCellDef="let element">{{element.dateEmbauche | date:'dd/MM/yyyy'}}</td>
+      <td mat-cell *matCellDef="let row">{{ row.dateEmbauche | date:'dd/MM/yyyy' }}</td>
     </ng-container>
 
-    <!-- Actions -->
+    <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button color="accent" (click)="editPersonnel(element)">
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button color="primary" (click)="editPersonnel(row)" aria-label="Modifier">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="deletePersonnel(element)">
+        <button mat-icon-button color="warn" (click)="deletePersonnel(row)" aria-label="Supprimer">
           <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" (click)="PayByPersonalId(row)" aria-label="Paiement">
+          <mat-icon>payment</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" (click)="CongeByPersonnelId(row)" aria-label="Congés">
+          <mat-icon>event</mat-icon>
         </button>
       </td>
     </ng-container>
 
-    <!-- Header & Row -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Sélecteur de page"></mat-paginator>
 </div>

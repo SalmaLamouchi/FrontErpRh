@@ -1,41 +1,47 @@
-<mat-card>
-  <mat-card-title>Ajouter une Fiche de Paie</mat-card-title>
-  <mat-card-content>
-    <form (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Matricule</mat-label>
-        <input matInput [(ngModel)]="paie.matricule" name="matricule" required />
-      </mat-form-field>
+<div class="edit-conge-container">
+  <mat-card>
+    <mat-card-title>Ajouter une Fiche de Paie</mat-card-title>
+    <mat-card-content>
+      <form #paieForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Nom</mat-label>
-        <input matInput [(ngModel)]="paie.nom" name="nom" required />
-      </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Personnel ID</mat-label>
+          <input matInput type="number" [(ngModel)]="paie.personnelId" name="personnelId" required min="1" aria-describedby="personnelIdError" #personnelId="ngModel" placeholder="Ex : 123" />
+          <mat-error *ngIf="personnelId.invalid && personnelId.touched" id="personnelIdError">
+            Veuillez saisir un Personnel ID valide.
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Mois</mat-label>
-        <input matInput [(ngModel)]="paie.mois" name="mois" required />
-      </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Mois payé</mat-label>
+          <input matInput type="month" [(ngModel)]="moisPayeString" name="moisPaye" required (change)="onMoisChange()" aria-describedby="moisPayeError" #moisPaye="ngModel" placeholder="YYYY-MM" />
+          <mat-error *ngIf="moisPaye.invalid && moisPaye.touched" id="moisPayeError">
+            Veuillez choisir un mois valide.
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Salaire Brut</mat-label>
-        <input matInput type="number" [(ngModel)]="paie.salaireBrut" name="brut" required (input)="calculerSalaireNet()" />
-      </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Montant (Salaire Net)</mat-label>
+          <input matInput type="number" [(ngModel)]="paie.montant" name="montant" required min="0" aria-describedby="montantError" #montant="ngModel" placeholder="Ex : 1500" />
+          <mat-error *ngIf="montant.invalid && montant.touched" id="montantError">
+            Veuillez saisir un montant positif.
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Retenues</mat-label>
-        <input matInput type="number" [(ngModel)]="paie.retenues" name="retenues" required (input)="calculerSalaireNet()" />
-      </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Statut</mat-label>
+          <input matInput [(ngModel)]="paie.statut" name="statut" required minlength="2" aria-describedby="statutError" #statut="ngModel" placeholder="Ex : Payé, En attente" />
+          <mat-error *ngIf="statut.invalid && statut.touched" id="statutError">
+            Veuillez saisir un statut valide (au moins 2 caractères).
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Salaire Net</mat-label>
-        <input matInput type="number" [value]="paie.salaireNet" name="net" disabled />
-      </mat-form-field>
+        <div class="btn-group">
+          <button mat-raised-button color="primary" type="submit" [disabled]="paieForm.invalid">Ajouter</button>
+          <button mat-button color="warn" routerLink="/paie" type="button">Annuler</button>
+        </div>
 
-      <div style="margin-top: 20px;">
-        <button mat-raised-button color="primary" type="submit">Ajouter</button>
-        <button mat-button color="warn" routerLink="/paie">Annuler</button>
-      </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

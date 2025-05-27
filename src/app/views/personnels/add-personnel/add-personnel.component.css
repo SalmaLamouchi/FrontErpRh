@@ -1,11 +1,23 @@
 .form-container {
-  max-width: 400px;
-  margin: 30px auto;
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+}
+
+.personnel-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1.2rem;
 }
 
 .full-width {
   width: 100%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
 }

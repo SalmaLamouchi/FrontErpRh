@@ -3,6 +3,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { PaieService } from '../../../services/paie.service';
+import { Paie } from '../../../models/paie';
 
 @Component({
   selector: 'app-consulter-paie',
@@ -10,42 +12,92 @@ import { Router } from '@angular/router';
   styleUrls: ['./consulter-paie.component.css']
 })
 export class ConsulterPaieComponent implements OnInit, AfterViewInit {
-  constructor(private router: Router) {}
+  displayedColumns: string[] = ['matricule', 'mois', 'montant', 'statut', 'actions'];
+  dataSource!: MatTableDataSource<Paie>;
+  nonTraitesDataSource!: MatTableDataSource<Paie>;
+  allPaies: Paie[] = [];
 
-  displayedColumns: string[] = ['matricule', 'nom', 'mois', 'salaireBrut', 'salaireNet', 'actions'];
-  dataSource!: MatTableDataSource<any>;
+  filterText: string = '';
 
-  paies = [
-    { matricule: 'EMP001', nom: 'Rayhane Z', mois: 'Mai', salaireBrut: 4000, salaireNet: 3600 },
-    { matricule: 'EMP002', nom: 'Salma L', mois: 'Mai', salaireBrut: 5000, salaireNet: 4400 }
-  ];
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('paginatorTraite') paginatorTraite!: MatPaginator;
+  @ViewChild('paginatorNonTraite') paginatorNonTraite!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  constructor(private router: Router, private paieService: PaieService) {}
+
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.paies);
+    this.loadPaies();
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  ngAfterViewInit(): void {
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginatorTraite;
+      this.dataSource.sort = this.sort;
+    }
+    if (this.nonTraitesDataSource) {
+      this.nonTraitesDataSource.paginator = this.paginatorNonTraite;
+      this.nonTraitesDataSource.sort = this.sort;
+    }
+  }
+
+  loadPaies(): void {
+    this.paieService.getPaies().subscribe({
+      next: (paies) => {
+        this.allPaies = paies;
+
+        const paiesTraitees = paies.filter(p => p.statut === 'Traitée');
+        const paiesNonTraitees = paies.filter(p => p.statut !== 'Traitée');
+
+        this.dataSource = new MatTableDataSource(paiesTraitees);
+        this.dataSource.paginator = this.paginatorTraite;
+        this.dataSource.sort = this.sort;
+
+        this.nonTraitesDataSource = new MatTableDataSource(paiesNonTraitees);
+        this.nonTraitesDataSource.paginator = this.paginatorNonTraite;
+        this.nonTraitesDataSource.sort = this.sort;
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des paies:', err);
+      }
+    });
+  }
+
+  applyFilter(event: Event): void {
+    this.filterText = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
+    const paiesTraitees = this.allPaies.filter(p => p.statut === 'Traitée');
+    const filtered = paiesTraitees.filter(p =>
+      p.personnelId.toString().toLowerCase().includes(this.filterText) ||
+      p.statut.toLowerCase().includes(this.filterText) ||
+      p.montant.toString().includes(this.filterText)
+    );
+
+    this.dataSource = new MatTableDataSource(filtered);
+    this.dataSource.paginator = this.paginatorTraite;
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event) {
-    const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filter = value;
-  }
-
-  editPaie(paie: any) {
+  editPaie(paie: Paie): void {
     this.router.navigate(['/paie/editPaie'], { state: { data: paie } });
   }
 
-  deletePaie(paie: any) {
-    const confirmDelete = confirm(`Supprimer la paie de ${paie.nom} ?`);
-    if (confirmDelete) {
-      this.paies = this.paies.filter(p => p !== paie);
-      this.dataSource.data = this.paies;
+  deletePaie(paie: Paie): void {
+    const confirmDelete = confirm(`Supprimer la paie du personnel #${paie.personnelId} ?`);
+    if (confirmDelete && paie.id) {
+      this.paieService.deletePaie(paie.id).subscribe({
+        next: () => this.loadPaies(),
+        error: (err) => console.error('Erreur lors de la suppression:', err)
+      });
+    }
+  }
+
+  Valider(paie: Paie): void {
+    if (paie.id) {
+      const paieValidee: Paie = { ...paie, statut: 'Traitée' };
+      this.paieService.updatePaie(paieValidee).subscribe({
+        next: () => this.loadPaies(),
+        error: (err) => console.error('Erreur lors de la validation:', err)
+      });
     }
   }
 }
